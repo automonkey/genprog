@@ -12,6 +12,8 @@ public:
     virtual EXPR_VAL Evaluate() const = 0;
 
     static Expr* CreateLiteralExpr( EXPR_VAL );
+    static Expr* CreateAdditionExpr( Expr*, Expr* );
+
     static void DestroyExpr( Expr* );
 
 protected:
