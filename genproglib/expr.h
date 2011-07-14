@@ -13,6 +13,9 @@ public:
 
     static Expr* CreateLiteralExpr( EXPR_VAL );
     static Expr* CreateAdditionExpr( Expr*, Expr* );
+    static Expr* CreateSubtractionExpr( Expr*, Expr* );
+    static Expr* CreateMultiplicationExpr( Expr*, Expr* );
+    static Expr* CreateDivisionExpr( Expr*, Expr* );
 
     static void DestroyExpr( Expr* );
 
