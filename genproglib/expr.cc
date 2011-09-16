@@ -1,5 +1,37 @@
 #include "expr.h"
 
+namespace
+{
+
+class ExprPtr
+{
+public:
+    ExprPtr( genproglib::Expr* ptr )
+        : mPtr( ptr )
+    {
+    }
+
+    ~ExprPtr()
+    {
+        genproglib::Expr::DestroyExpr( mPtr );
+    }
+
+    genproglib::Expr* operator->() const
+    {
+        return mPtr;
+    }
+
+    genproglib::Expr* Ptr() const
+    {
+        return mPtr;
+    }
+
+private:
+    genproglib::Expr* mPtr;
+};
+
+}
+
 namespace genproglib
 {
 
@@ -50,8 +82,8 @@ public:                                             \
     EXPR_VAL Evaluate() const;                      \
                                                     \
 private:                                            \
-    Expr* mOp1;                                     \
-    Expr* mOp2;                                     \
+    ExprPtr mOp1;                                   \
+    ExprPtr mOp2;                                   \
 };
 
 DEFINE_BINARY_OPERATOR_EXPR( AdditionExpr ) 
