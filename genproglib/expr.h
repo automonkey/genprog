@@ -28,6 +28,8 @@ protected:
     virtual ~Expr();
 };
 
+void Swap( Expr*, Expr* );
+
 }
 
 #endif

@@ -111,6 +111,30 @@ void MultiOperatorExpr()
     IG_ASSERT( expr->Evaluate() == 20 );
 }
 
+void Swap()
+{
+    genproglib::Expr* lhs = 0;
+    genproglib::Expr* rhs = 0;
+
+    // it should be possible to swap two nodes
+    ExprPtr expr(
+        genproglib::Expr::CreateSubtractionExpr(
+            lhs = genproglib::Expr::CreateAdditionExpr(
+                genproglib::Expr::CreateLiteralExpr( 4 ),
+                genproglib::Expr::CreateLiteralExpr( 5 )
+            ),
+            rhs = genproglib::Expr::CreateAdditionExpr(
+                genproglib::Expr::CreateLiteralExpr( 1 ),
+                genproglib::Expr::CreateLiteralExpr( 2 )
+            )
+        )
+    );
+
+    IG_ASSERT( expr->Evaluate() == 6 ); // 9 - 3 = 6
+    genproglib::Swap( lhs, rhs );
+    IG_ASSERT( expr->Evaluate() == -6 ); // 3 - 9 = -6
+}
+
 }
 
 IG_BEGIN_TESTS
@@ -120,6 +144,7 @@ IG_TEST_ENTRY( SubtractionExpr )
 IG_TEST_ENTRY( MultiplicationExpr )
 IG_TEST_ENTRY( DivisionExpr )
 IG_TEST_ENTRY( MultiOperatorExpr )
+IG_TEST_ENTRY( Swap )
 IG_END_TESTS
 
 IG_TEST_MAIN
