@@ -1,16 +1,38 @@
 #include "TestFramework.h"
-#include "literalexpr.h"
+#include "expr.h"
 
 #include <iostream>
 
 namespace
 {
 
+class ExprPtr
+{
+public:
+    ExprPtr( genproglib::Expr* ptr )
+        : mPtr( ptr )
+    {
+    }
+
+    ~ExprPtr()
+    {
+        genproglib::Expr::DestroyExpr( mPtr );
+    }
+
+    genproglib::Expr* operator->() const
+    {
+        return mPtr;
+    }
+
+private:
+    genproglib::Expr* mPtr;
+};
+
 void LiteralExpr()
 {
-    genproglib::LiteralExpr le( 42 );
+    ExprPtr le( genproglib::Expr::CreateLiteralExpr( 42 ) );
 
-    IG_ASSERT( le.Evaluate() == 42 );
+    IG_ASSERT( le->Evaluate() == 42 );
 }
 
 }
