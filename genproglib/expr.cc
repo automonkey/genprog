@@ -202,13 +202,12 @@ ExprPtr& ExprImpl::GetChildPtrOfParent( ExprImpl& child )
 
 void ExprImpl::Swap( ExprImpl& other )
 {
+    // node position dictated by ownership to parent - swap parent child
+    // node ptrs in parents
     ExprPtr& thisParentChildPtr = GetChildPtrOfParent( *this );
     ExprPtr& otherParentChildPtr = GetChildPtrOfParent( other );
+    thisParentChildPtr.swap(otherParentChildPtr);
 
-    ExprPtr tmp( thisParentChildPtr );
-    thisParentChildPtr = otherParentChildPtr;
-    otherParentChildPtr = tmp;
-    
     std::swap( mParent, other.mParent );
 }
 
