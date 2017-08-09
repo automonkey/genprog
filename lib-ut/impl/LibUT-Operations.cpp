@@ -43,3 +43,19 @@ TEST_CASE( "Division expression should evaluate to correct total", "[operations]
         Lib::Expr::CreateLiteralExpr(2)));
     REQUIRE(EightDividedByTwo->Evaluate() == 4);
 }
+
+TEST_CASE( "Should evaluate multi-operator expression", "[operations]" ) {
+
+    Lib::ExprPtr multiOperatorExpr(
+        Lib::Expr::CreateAdditionExpr(
+            Lib::Expr::CreateMultiplicationExpr(
+                Lib::Expr::CreateLiteralExpr(4),
+                Lib::Expr::CreateLiteralExpr(3)),
+            Lib::Expr::CreateAdditionExpr(
+                Lib::Expr::CreateDivisionExpr(
+                    Lib::Expr::CreateLiteralExpr(9),
+                    Lib::Expr::CreateLiteralExpr(3)),
+                Lib::Expr::CreateLiteralExpr(5))));
+
+    REQUIRE(multiOperatorExpr->Evaluate() == ((4 * 3) + ((9 / 3) + 5)));
+}
