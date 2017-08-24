@@ -1,5 +1,5 @@
-#ifndef LIB_APPUSAGESTRINGGENERATION
-#define LIB_APPUSAGESTRINGGENERATION
+#ifndef LIB_EXPRESSION
+#define LIB_EXPRESSION
 
 #include <map>
 #include <memory>
