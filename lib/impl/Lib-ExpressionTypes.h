@@ -1,18 +1,10 @@
-#include "Lib-Expression.h"
+#ifndef LIB_EXPRESSIONTYPES
+#define LIB_EXPRESSIONTYPES
 
 #include <string>
-#include <sstream>
+#include "Lib-Expression.h"
 
-namespace Lib
-{
-
-Expr::Expr()
-{
-}
-
-Expr::~Expr()
-{
-}
+namespace Lib {
 
 class LiteralExpr : public Expr
 {
@@ -28,21 +20,6 @@ private:
     EXPR_VAL val;
 };
 
-LiteralExpr::LiteralExpr( EXPR_VAL val )
-    : val( val )
-{
-}
-
-EXPR_VAL LiteralExpr::EvaluateForInput( EXPR_VAL ) const
-{
-    return val;
-}
-
-Expr* Expr::CreateLiteralExpr( EXPR_VAL val )
-{
-    return new LiteralExpr( val );
-}
-
 class Input : public Expr
 {
 public:
@@ -54,16 +31,6 @@ protected:
 private:
     std::string name;
 };
-
-EXPR_VAL Input::EvaluateForInput( EXPR_VAL input ) const
-{
-    return input;
-}
-
-Expr* Expr::CreateInput()
-{
-    return new Input();
-}
 
 class BinaryExpr : public Expr
 {
@@ -83,6 +50,12 @@ protected:
     }
 };
 
+/// created expr takes ownership of provided subexpressions
+Expr* CreateInput();
+
+/// created expr takes ownership of provided subexpressions
+Expr* CreateLiteralExpr( EXPR_VAL );
+
 #define DEFINE_BINARY_OPERATOR_EXPR( EXPR_NAME )                \
 class EXPR_NAME : public BinaryExpr                             \
 {                                                               \
@@ -100,34 +73,15 @@ protected:                                                      \
     }                                                           \
 };                                                              \
                                                                 \
-Expr* Expr::Create##EXPR_NAME( Expr* op1, Expr* op2 ) {         \
-    return new EXPR_NAME(op1, op2);                             \
-}
+/*created expr takes ownership of provided subexpressions*/     \
+Expr* Create##EXPR_NAME( Expr* op1, Expr* op2 );
 
 
 DEFINE_BINARY_OPERATOR_EXPR( AdditionExpr )
-EXPR_VAL AdditionExpr::EvaluateForInput( EXPR_VAL input ) const
-{
-    return op1->EvaluateForInput(input) + op2->EvaluateForInput(input);
-}
-
 DEFINE_BINARY_OPERATOR_EXPR( SubtractionExpr )
-EXPR_VAL SubtractionExpr::EvaluateForInput( EXPR_VAL input ) const
-{
-    return op1->EvaluateForInput(input) - op2->EvaluateForInput(input);
-}
-
 DEFINE_BINARY_OPERATOR_EXPR( MultiplicationExpr )
-EXPR_VAL MultiplicationExpr::EvaluateForInput( EXPR_VAL input ) const
-{
-    return op1->EvaluateForInput(input) * op2->EvaluateForInput(input);
-}
-
 DEFINE_BINARY_OPERATOR_EXPR( DivisionExpr )
-EXPR_VAL DivisionExpr::EvaluateForInput( EXPR_VAL input ) const
-{
-    return op1->EvaluateForInput(input) / op2->EvaluateForInput(input);
-}
 
 }
 
+#endif
